@@ -1,10 +1,21 @@
+import java.util.Scanner;
+
 public class Boff{
     public static void main(String[] args){
-        final int N = 7;
-        final int START = 11;
-        final int STOP = 99; //TODO: Take N, START and STOP as dynamic input
-        int output = numbers(N,START,STOP);
+        final int N;
+        final int START;
+        final int STOP;
+        Scanner in;
+
+        in = new Scanner(System.in);
+        System.out.println("Enter the values for n, a, b: ");
+        N = in.nextInt();
+        START = in.nextInt();
+        STOP = in.nextInt();
+
+                int output = numbers(N,START,STOP);
         System.out.println(output);
+        in.close();
     };
 
     public static int numbers(int N, int START, int STOP){
@@ -23,7 +34,6 @@ public class Boff{
         }
         //Calculating number of multiples. since multiplesStart is the first multiple number, 
         //if the total number of digits is not devisible by N, there is exactly one more multiple than is given by division. 
-        //multiples = (int) Math.ceil((STOP-multiplesStart)/N);
         if((STOP-multiplesStart)%N == 0){
             multiples = (STOP-multiplesStart)/N;
         } else {
@@ -31,7 +41,7 @@ public class Boff{
         }
 
         int endDigits;
-        float freq;
+        int freqInv;
         int same; //number of numbers that are both divisible by N and end in N. 
         if(N < 10){
             
@@ -50,25 +60,23 @@ public class Boff{
 
             //deviding into cases based on Largest common denominator of N with 10
             if(N%2 == 0){
-                freq = (2/(N*10)); //Frequency of numbers that are both divisible by N and end in N. 
+                freqInv = ((N*10)/2); //Inverse frequency of numbers that are both divisible by N and end in N. 
             } else if(N%5 == 0) {
-                freq = (5/(N*10));
+                freqInv = ((N*10)/5);
             } else {
-                freq = (1/(N*10));
+                freqInv = ((N*10));
             };
 
             //moving the starting index to the first number that's both ending in N and is devisible by N. 
             int sameStart = START;
             while(sameStart%N != 0 || sameStart%10 != N){
                 sameStart = sameStart + 1;
-                System.out.println(sameStart);
             };
-            same = (int) Math.ceil(freq * (STOP - sameStart)); 
 
-            if(freq * (STOP - sameStart)%1 == 0.0){
-                same = (int) freq * (STOP - sameStart);
+            if((STOP - sameStart)%freqInv == 0){
+                same = (STOP - sameStart)/freqInv;
             } else {
-                same = (int) freq * (STOP - sameStart) + 1;
+                same = (STOP - sameStart)/freqInv + 1;
             }
 
         } else {
@@ -87,21 +95,21 @@ public class Boff{
             }
             //deviding into cases based on Largest common denominator of N with 100
             if(N%2 == 0){
-                freq = (2/(N*100)); //Number of digits that are both divisable by N and end in N
+                freqInv = ((N*100)/2); //Number of digits that are both divisable by N and end in N
             } else if (N%4 == 0){
-                freq = (4/(N*100));
+                freqInv = ((N*100)/4);
             } else if(N%5 == 0){
-                freq = (5/(N*100));
+                freqInv = ((N*100)/5);
             } else if(N%10 == 0){
-                freq = (10/(N*100));
+                freqInv = ((N*100)/10);
             } else if(N%20 == 0){
-                freq = (20/(N*100));
+                freqInv = ((N*100)/20);
             } else if(N%25 == 0){
-                freq = (25/(N*100));
+                freqInv = ((N*100)/25);
             } else if(N%50 == 0){
-                freq = (50/(N*100));
+                freqInv = ((N*100)/50);
             } else {
-                freq = (1/(N*100));
+                freqInv = ((N*100)/1);
             };
         
             //moving the starting index to the first number that's both ending in N and is devisible by N. 
@@ -109,15 +117,12 @@ public class Boff{
             while(sameStart%N != 0 || sameStart%100 != N){
                 sameStart = sameStart + 1;
             };
-            same = (int) Math.ceil(freq * (STOP - sameStart));   
+            if((STOP - sameStart)%freqInv == 0){
+                same = (STOP - sameStart)/freqInv;
+            } else {
+                same = (STOP - sameStart)/freqInv + 1;
+            }  
         };     
-        System.out.println(multiples);
-        System.out.println(endDigits);
-        System.out.println(same);
         return multiples + endDigits - same; 
-    };
-
-    public static int findSCP(int x, int y){
-        return 0;
     };
 }
