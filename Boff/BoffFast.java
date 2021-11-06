@@ -1,23 +1,5 @@
-import java.util.Scanner;
-
-public class Boff{
-    public static void main(String[] args){
-        final int N;
-        final int START;
-        final int STOP;
-        Scanner in;
-
-        in = new Scanner(System.in);
-        System.out.println("Enter the values for n, a, b: ");
-        N = in.nextInt();
-        START = in.nextInt();
-        STOP = in.nextInt();
-
-                int output = numbers(N,START,STOP);
-        System.out.println(output);
-        in.close();
-    };
-
+package Boff;
+public class BoffFast {
     public static int numbers(int N, int START, int STOP){
         // Let O be all numbers from START to STOP.
         // Searching for the size of the Union (S) of multiples (M) and endDigits (E) where:
@@ -31,14 +13,22 @@ public class Boff{
         int multiplesStart = START;
         while(multiplesStart%N != 0){
             multiplesStart = multiplesStart +1;
+            if(multiplesStart > STOP+1){
+                break;
+            }
         }
         //Calculating number of multiples. since multiplesStart is the first multiple number, 
         //if the total number of digits is not devisible by N, there is exactly one more multiple than is given by division. 
-        if((STOP-multiplesStart)%N == 0){
-            multiples = (STOP-multiplesStart)/N;
+        if(multiplesStart < STOP){
+            if((STOP-multiplesStart)%N == 0){
+                multiples = (STOP-multiplesStart)/N + 1;
+            } else {
+                multiples = (STOP-multiplesStart)/N + 1;
+            }
         } else {
-            multiples = (STOP-multiplesStart)/N + 1;
+            multiples = 0;
         }
+
 
         int endDigits;
         int freqInv;
@@ -49,13 +39,21 @@ public class Boff{
             int endStart = START;
             while(endStart%10 != N){
                 endStart = endStart +1;
+                if(endStart > STOP+1){
+                    break;
+                }
             }
             //endDigits = (int) Math.ceil((STOP - endStart)/10); //Number of numbers in the interval that ends with N if N is one digit
-            if((STOP-endStart)%10 == 0){
-                endDigits = (STOP-endStart)/10;
+            if(endStart < STOP){
+                if((STOP-endStart)%10 == 0){
+                    endDigits = (STOP-endStart)/10 + 1;
+                } else {
+                    endDigits = (STOP-endStart)/10 + 1;
+                }
             } else {
-                endDigits = (STOP-endStart)/10 + 1;
+                endDigits = 0;
             }
+
 
 
             //deviding into cases based on Largest common denominator of N with 10
@@ -71,13 +69,21 @@ public class Boff{
             int sameStart = START;
             while(sameStart%N != 0 || sameStart%10 != N){
                 sameStart = sameStart + 1;
+                if(sameStart > STOP+1){
+                    break;
+                }
             };
 
-            if((STOP - sameStart)%freqInv == 0){
-                same = (STOP - sameStart)/freqInv;
+            if(sameStart<STOP){
+                if((STOP - sameStart)%freqInv == 0){
+                    same = (STOP - sameStart)/freqInv + 1;
+                } else {
+                    same = (STOP - sameStart)/freqInv + 1;
+                }
             } else {
-                same = (STOP - sameStart)/freqInv + 1;
+                same = 0;
             }
+
 
         } else {
 
@@ -85,29 +91,37 @@ public class Boff{
             int endStart = START;
             while(endStart%100 != N){
                 endStart = endStart +1;
+                if(endStart > STOP+1){
+                    break;
+                }
             };
 
             //endDigits = (int) Math.ceil((STOP - endStart)/100); //Number of numbers in the interval that ends with N if N is two digits
-            if((STOP-endStart)%100 == 0){
-                endDigits = (STOP-endStart)/100;
+            if(endStart < STOP){
+                if((STOP-endStart)%100 == 0){
+                    endDigits = (STOP-endStart)/100 +1;
+                } else {
+                    endDigits = (STOP-endStart)/100 + 1;
+                }
             } else {
-                endDigits = (STOP-endStart)/100 + 1;
+                endDigits = 0;
             }
+
             //deviding into cases based on Largest common denominator of N with 100
-            if(N%2 == 0){
-                freqInv = ((N*100)/2); //Number of digits that are both divisable by N and end in N
-            } else if (N%4 == 0){
-                freqInv = ((N*100)/4);
-            } else if(N%5 == 0){
-                freqInv = ((N*100)/5);
-            } else if(N%10 == 0){
-                freqInv = ((N*100)/10);
+            if(N%50 == 0){
+                freqInv = ((N*100)/50); //Number of digits that are both divisable by N and end in N
+            } else if (N%25 == 0){
+                freqInv = ((N*100)/25);
             } else if(N%20 == 0){
                 freqInv = ((N*100)/20);
-            } else if(N%25 == 0){
-                freqInv = ((N*100)/25);
-            } else if(N%50 == 0){
-                freqInv = ((N*100)/50);
+            } else if(N%10 == 0){
+                freqInv = ((N*100)/10);
+            } else if(N%5 == 0){
+                freqInv = ((N*100)/5);
+            } else if(N%4 == 0){
+                freqInv = ((N*100)/4);
+            } else if(N%2 == 0){
+                freqInv = ((N*100)/2);
             } else {
                 freqInv = ((N*100)/1);
             };
@@ -116,13 +130,25 @@ public class Boff{
             int sameStart = START;
             while(sameStart%N != 0 || sameStart%100 != N){
                 sameStart = sameStart + 1;
+                if(sameStart > STOP+1){
+                    break;
+                }
             };
-            if((STOP - sameStart)%freqInv == 0){
-                same = (STOP - sameStart)/freqInv;
+            //System.out.println("Same start = "+sameStart);
+            if(sameStart < STOP){
+                //System.out.println("freqInv used is: "+freqInv);
+                if((STOP - sameStart)%freqInv == 0){
+                    same = (STOP - sameStart)/freqInv + 1;
+                } else {
+                    same = (STOP - sameStart)/freqInv + 1;
+                }  
             } else {
-                same = (STOP - sameStart)/freqInv + 1;
-            }  
+                same = 0;
+            }
+
         };     
+        //System.out.println(multiples + "\n" + endDigits + "\n" + same);
         return multiples + endDigits - same; 
     };
+    
 }
