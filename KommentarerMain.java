@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class KommentarerMain {
     public static Boolean inComment = false;
     public static Boolean slashDebt = false; //true om vi har ett överhoppat / som bör skrivas ut.
+    public static Boolean resetPrev = false; //True if prev in the loop needs to be reset
     public static String commentType = null;
 
     public static void main(String[] args){
@@ -33,6 +34,10 @@ public class KommentarerMain {
                     }
                 }
                 prev = c;
+                if (resetPrev){
+                    prev = '0';
+                    resetPrev = false;
+                }
             }
             inComment = false;
             commentType = null;
@@ -94,6 +99,7 @@ public class KommentarerMain {
                     inComment = true;
                     commentType = "*/";
                     slashDebt = false; //Nollställer slash dept eftersom en * kom efter. 
+                    resetPrev = true;
                 }
             } else {
                 System.out.print('*');
@@ -109,10 +115,11 @@ public class KommentarerMain {
                 if(commentType == "*/"){
                     inComment = false;
                     commentType = null;
+                    resetPrev = true;
                 }
             }
         } else {
-            slashDebt = true; //Vi ha ett / att skriva ut om nästa inte är en *
+            slashDebt = true; //Vi har ett / att skriva ut om nästa inte är en *
         }
     }
 
