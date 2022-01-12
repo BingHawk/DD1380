@@ -6,36 +6,27 @@ public class KommentarerMain {
 
     public static void main(String[] args){
         int i;
-        char bufferedChar = '0';
 
         try {
+            char prev = '0';
             while ((i = System.in.read()) != -1) {
                 char c = (char)i;
 
-                //on toggles
-                if(c == '%' && !inComment){
-                    toggleInComment("%");
-                }
-                if (bufferedChar == '0' && (c == '*' || c == '/')){
-                    bufferedChar = c;
-                } else if (bufferedChar == '/' && c == '*' && !inComment){ //Comments are off
-                    toggleInComment("*/"); //Toggel on. 
+                if(c == '%'){
+                    System.out.print("[% detected]");
+                    parsePercent();
+                } else if (c == '*'){
+                    System.out.print("[* detected, prev = "+prev+"]");
+                    parseStar(prev);
+                } else if (c == '/'){
+                    System.out.print("[/ detected, prev = "+prev+"]");
+                    parseSlash(prev);
                 } else {
-                    bufferedChar = '0';
+                    if(!inComment){
+                        System.out.print(c);
+                    }
                 }
-
-                //print
-                if(!inComment){
-                    System.out.print(c);
-                }
-
-                //off toggles
-                if(c == '%' && inComment){
-                    toggleInComment("%");
-                }
-                if (bufferedChar == '*' && c == '/' && inComment){
-                    toggleInComment("*/");
-                } 
+                prev = c;
             }
         }
         catch (IOException e) {
@@ -43,17 +34,37 @@ public class KommentarerMain {
         }
     }
 
-    private static void toggleInComment(String comType){
-        if (inComment){
-            if (comType.equals(commentType)){
+    //Slår på eller av kommentarsläge om % kommer
+    private static void parsePercent(){
+        if(!inComment){
+            inComment = true;
+            commentType = "%";
+        } else {
+            inComment = false;
+            commentType = null;
+            //TODO: lägg till hantering av annan kommentar
+        }
+    }
+
+    //Slår på kommentarsläge om /kommer före *
+    private static void parseStar(char prev){
+        if(!inComment){
+            if(prev == '/'){
+                inComment = true;
+                commentType = "*/";
+            }
+        }
+    }
+
+    //stännger av komentarsläge om stjärna kommer innan /
+    private static void parseSlash(char prev){
+        if(inComment){
+            if(prev == '*'){
                 inComment = false;
                 commentType = null;
+                //TODO: hantera annan kommentarstyp
             }
-        } else {
-            inComment = true;
-            commentType = comType;
         }
-        System.out.println("toggleInComment run. inComment: "+inComment);
     }
 }
 
