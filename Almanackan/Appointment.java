@@ -48,9 +48,10 @@ public class Appointment implements Comparable<Appointment>{
                 return 1;
             } else { //If dates are the same, check hours
                 String[] thisHM = this.time.split(":");
-                String[] oHM = this.time.split(":");
+                String[] oHM = o.time.split(":");
                 int thisH = Integer.parseInt(thisHM[0]);
                 int oH = Integer.parseInt(oHM[0]);
+                //System.out.print("thisH: "+thisH+" , oH: "+oH+"\n");
                 if (thisH < oH) {
                     return -1;
                 }else if (thisH > oH){
