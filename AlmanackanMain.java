@@ -1,8 +1,8 @@
-import Almanackan.Appointment;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+
+import Almanackan.Appointment;
 
 public class AlmanackanMain {
 
@@ -41,6 +41,7 @@ public class AlmanackanMain {
 
 
             Appointment apmt = new Appointment(description, month, date, time);
+            //System.out.print(apmt.getClass());
 
             appointments.add(apmt);
         }
@@ -54,3 +55,4 @@ public class AlmanackanMain {
         }
     }
 }
+

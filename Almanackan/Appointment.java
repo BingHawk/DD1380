@@ -1,7 +1,5 @@
 package Almanackan;
-
 import java.util.HashMap;
-
 
 public class Appointment implements Comparable<Appointment>{
     public String description;
@@ -25,7 +23,7 @@ public class Appointment implements Comparable<Appointment>{
         monthMap.put("jul", 7);
         monthMap.put("aug", 8);
         monthMap.put("sep", 9);
-        monthMap.put("oct", 10);
+        monthMap.put("okt", 10);
         monthMap.put("nov", 11);
         monthMap.put("dec", 12);
     }
@@ -34,7 +32,12 @@ public class Appointment implements Comparable<Appointment>{
         return month+" " + String.valueOf(date) + " " + time + " " + description;
     }
 
+    @Override
     public int compareTo(Appointment o){
+        if(!o.getClass().toString().equals("class Almanackan.Appointment")){
+            throw new ClassCastException();
+        }
+
         int thisMonth = monthMap.get(this.month);
         int oMonth = monthMap.get(o.month);
         if (thisMonth < oMonth) {
