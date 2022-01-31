@@ -11,6 +11,8 @@ class kommentarer5 {
         }
         String text = buf.toString(); 
 
+        scan.close();
+
         // TESTSTRÄNG
         //String text = "Charles knocked on the door and a woman opened it. % Hmm, is this good... /* Not sure to 100% */ Perhaps this should happen in chapter 10 instead? % She looked at him.- Yes?, she said.";
         String storage = "0";

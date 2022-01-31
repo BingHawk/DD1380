@@ -1,9 +1,10 @@
-
+package Kvadranter;
 
 public class Grid {
     public int rowLength; //the number of columns in each row = number of rows in col. 
     public int n; //Number of tiles in the grid. n = rowLength^2. 
     public String[] grid;
+    
 
     //n is the number of digits in the name. 
     public Grid(int levels) {
