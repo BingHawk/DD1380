@@ -38,6 +38,8 @@ public class Tile {
         //För varje nivå, kolla vilken kvadrant vi är i 
         //Lägg till kvadrantens siffra i strängen
         //Ta bort lägsta möjliga koordinatvärde för den kvadranten från koordinaten
+        //  Detta justerar koordinaten till den tile i kvadrant 1 som har samma nästkommande kvadranter
+        //  och tillåter att samma koll som ovan körs igen. 
 
         this.x = newX;
         this.y = newY;
@@ -45,26 +47,26 @@ public class Tile {
         int level = n; //Initiera nivån till n
         name ="";
         
-        while(level > 0){
-            if(newX < Math.pow(2,level-1)){ //Kvadrant 1 eller 3
-                if(newY < Math.pow(2,level-1)){ //Kvadrant 1
+        while(level > 0){ //Kör tills alla nivåer är genomgådda. 
+            if(newX < Math.pow(2,level-1)){ //Kvadrant 1 eller 3 eftersom x<2^(n-1)
+                if(newY < Math.pow(2,level-1)){ //Kvadrant 1 eftersom y<2^(n-1)
                     name = name +"1";
                     newX = newX - 0;
                     newY = newY - 0;
                     //System.out.println("Quadrant 1. name = "+name+":\nlevel: "+level+"\tx,y: "+newX+","+newY);
-                } else {//kvadrant 3
+                } else {//kvadrant 3 eftersom y>=2^(n-1)
                     name = name +"3";
                     newX = newX - 0;
                     newY = newY - (int) Math.pow(2, level-1);
                     //System.out.println("Quadrant 3. name = "+name+":\nlevel: "+level+"\tx,y: "+newX+","+newY);
                 }
-            } else { //Kvadrant 2 eller 4
-                if(newY < Math.pow(2,level-1)){ //Kvadrant 2
+            } else { //Kvadrant 2 eller 4 eftersom x>=2^(n-1)
+                if(newY < Math.pow(2,level-1)){ //Kvadrant 2 eftersom y<2^(n-1)
                     name = name +"2";
                     newX = newX - (int) Math.pow(2, level-1);
                     newY = newY - 0;
                     //System.out.println("Quadrant 2. name = "+name+":\nlevel: "+level+"\tx,y: "+newX+","+newY);
-                } else {//kvadrant 4
+                } else {//kvadrant 4 eftersom y>=2^(n-1)
                     name = name +"4";
                     newX = newX - (int) Math.pow(2, level-1);
                     newY = newY - (int) Math.pow(2, level-1);
@@ -72,7 +74,7 @@ public class Tile {
                 }
             }
             level = level -1;
-            if (level != 0){
+            if (level != 0){ //Lägg till punkt mellan siffror om vi inte är på sista nivån. 
                 name = name+".";
             }
         }
